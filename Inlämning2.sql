@@ -47,7 +47,7 @@ create table skidor(
     fabrikat varchar(10),
     spann varchar(20),
     snöTyp varchar(10),
-    väderTyp varchar(10),
+    väderTyp varchar(20),
     primary key (nummer,  åkarNamn),
     foreign key (strukturNamn) references struktur(namn),
     foreign key (snöTyp) references snö(typ),
@@ -107,44 +107,92 @@ insert into skidåkare(namn, vikt) values ('Markus Hellner', 75);
 insert into skidåkare(namn, vikt) values ('Anna Haag', 63);
 insert into skidåkare (namn, vikt) values ('Emma Wikén', 62);
 insert into skidåkare (namn, vikt) values ('Stina Nilsson', 55);
+insert into skidåkare (namn, vikt) values ('Åke Svensson', 80);
+insert into skidåkare (namn, vikt) values ('Peter Sjöberg', 77);
+insert into skidåkare (namn, vikt) values ('Lisa Andersson', 62);
+insert into skidåkare (namn, vikt) values ('Madde Persson', 65);
 insert into snö(typ, luftfuktighet) values ('Slask', 100);
-insert into snö(typ, luftfuktighet) values ('Mjuk', 90);
-insert into snö(typ, luftfuktighet) values ('Stenhårt', 0);
+insert into snö(typ, luftfuktighet) values ('Mjuk', 70);
+insert into snö(typ, luftfuktighet) values ('Pudersnö', 10);
+insert into snö(typ, luftfuktighet) values ('Frost', 0);
+insert into snö(typ, luftfuktighet) values ('Stenhårt', 5);
+insert into snö(typ, luftfuktighet) values ('Kramsnö', 60);
 insert into tävling(namn, datum) values ('Oberstdorf', 20160105);
 insert into tävling(namn, datum) values ('Mördarbacken', 20160110);
 insert into tävling(namn, datum) values ('Lenzerheide', 20130201);
+insert into tävling(namn, datum) values ('Hammarbybacken', 20180101);
+insert into tävling(namn, datum) values ('Åre', 20100310);
+insert into tävling(namn, datum) values ('Säfsen', 20140207);
 insert into väder(typ, temperatur) values ('Extremt kallt', -20);
 insert into väder(typ, temperatur) values ('Regnigt', 0);
 insert into väder(typ, temperatur) values ('Strålande solsken', 2);
 insert into väder(typ, temperatur) values ('Spöregn', 0);
+insert into väder(typ, temperatur) values ('Snöstorm', -5);
+insert into väder(typ, temperatur) values ('Blåsigt', -1);
+insert into väder(typ, temperatur) values ('Vindstilla', -5);
 insert into struktur(namn, grovlek) values ('Grov Julgran', '2mm');
 insert into struktur(namn, grovlek) values ('Nedskuren', '1mm');
+insert into struktur(namn, grovlek) values ('Slät Påskhare', '5mm');
+insert into struktur(namn, grovlek) values ('Bullig Träplanka', '7mm');
+insert into struktur(namn, grovlek) values ('Bränd Stock', '10mm');
 insert into valla(namn, typ) values ('Swix KX35', 'Klister');
 insert into valla(namn, typ) values ('Swix HF8', 'Glid');
 insert into valla(namn, typ) values ('Swix KX45', 'Fäst');
 insert into valla(namn, typ) values ('Skigo HF-Gul', 'Glid');
+insert into valla(namn, typ) values ('Swix KX1337', 'Fäst');
+insert into valla(namn, typ) values ('Swix KX55', 'Klister');
+insert into valla(namn, typ) values ('Swix KX70', 'Klister');
 
 #WEAK
 insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Klisterskida', 'Fischer', 'Markus Hellner', 3, 'Grov Julgran', 'Slask', 'Regnigt');
-insert into skidor(spann, fabrikat, åkarNamn, nummer) values ('Lågt', 'Fischer', 'Anna Haag', 3);
-insert into skidor(åkarNamn, nummer) values ('Emma Wikén', 7);
-insert into skidor(åkarNamn, nummer) values ('Stina Nilsson', 2);
-insert into skidor(åkarNamn, nummer) values ('Charlotte Kalla', 13);
+insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Lågt', 'Fischer', 'Anna Haag', 3, 'Bullig Träplanka', 'Kramsnö', 'Vindstilla');
+insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Högt', 'Fischer', 'Emma Wikén', 7, 'Slät Påskhare', 'Frost', 'Blåsigt');
+insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Medel', 'Adidas', 'Stina Nilsson', 2, 'Bränd Stock', 'Pudersnö', 'Vindstilla');
+insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Kardborre', 'Atomic', 'Madde Persson', 13, 'Grov Julgran', 'Frost', 'Snöstorm');
+insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Klisterskida', 'OneWay', 'Lisa Andersson', 13, 'Bränd Stock', 'Frost', 'Strålande solsken');
+insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Klisterskida', 'Atomic', 'Peter Sjöberg', 14, 'Bullig Träplanka', 'Stenhårt', 'Extremt kallt');
+insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Lågt', 'Madshus', 'Åke Svensson', 9, 'Nedskuren', 'Kramsnö', 'Blåsigt');
+insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Lågt', 'Madshus', 'Stina Nilsson', 22, 'Nedskuren', 'Kramsnö', 'Blåsigt');
 insert into rillverktyg(fabrikat, kommentar, strukturNamn) values ('Swix', 'Helt otroligt snabb i kallföre', 'Nedskuren');
-insert into rillverktyg(fabrikat, strukturNamn) values ('Skigo', 'Nedskuren'); # Lägg till tävling som kommentar? 
+insert into rillverktyg(fabrikat, kommentar, strukturNamn) values ('Skigo', 'Inte imponerad', 'Grov Julgran'); # Lägg till tävling som kommentar? 
+insert into rillverktyg(fabrikat, kommentar, strukturNamn) values ('Skigo', 'Fantastiskt effektiv i varmföre', 'Bränd Stock');
+insert into rillverktyg(fabrikat, kommentar, strukturNamn) values ('Skiwent', 'Extraordinärt verksam i medelföre', 'Slät Påskhare');
+insert into rillverktyg(fabrikat, kommentar, strukturNamn) values ('Swax', 'Oslagbar smidighet', 'Slät Påskhare');
 
 #RELATIONS
 insert into delta(skidåkarNamn, tävlingsNamn) values ('Charlotte Kalla', 'Mördarbacken'); # Lägg in skidnummer?
+insert into delta(skidåkarNamn, tävlingsNamn) values ('Madde Persson', 'Mördarbacken');
+insert into delta(skidåkarNamn, tävlingsNamn) values ('Peter Sjöberg', 'Mördarbacken'); 
+insert into delta(skidåkarNamn, tävlingsNamn) values ('Stina Nilsson', 'Mördarbacken'); 
+insert into delta(skidåkarNamn, tävlingsNamn) values ('Charlotte Kalla', 'Hammarbybacken'); 
+insert into delta(skidåkarNamn, tävlingsNamn) values ('Anna Haag', 'Hammarbybacken'); 
+insert into delta(skidåkarNamn, tävlingsNamn) values ('Emma Wikén', 'Hammarbybacken');
+insert into delta(skidåkarNamn, tävlingsNamn) values ('Stina Nilsson', 'Oberstdorf');
+insert into delta(skidåkarNamn, tävlingsNamn) values ('Emma Wikén', 'Oberstdorf');
+insert into delta(skidåkarNamn, tävlingsNamn) values ('Stina Nilsson', 'Lenzerheide');
+insert into delta(skidåkarNamn, tävlingsNamn) values ('Markus Hellner', 'Lenzerheide');
+insert into delta(skidåkarNamn, tävlingsNamn) values ('Emma Wikén', 'Åre');
+insert into delta(skidåkarNamn, tävlingsNamn) values ('Peter Sjöberg', 'Säfsen');
+insert into delta(skidåkarNamn, tävlingsNamn) values ('Markus Hellner', 'Säfsen'); 
 insert into tävlingsdata1(snöTyp, tävlingsNamn) values ('Slask', 'Oberstdorf');
 insert into tävlingsdata1(snöTyp, tävlingsNamn) values ('Stenhårt', 'Lenzerheide');
 insert into tävlingsdata1(snöTyp, tävlingsNamn) values ('Mjuk', 'Lenzerheide');
+insert into tävlingsdata1(snöTyp, tävlingsNamn) values ('Kramsnö', 'Hammarbybacken');
+insert into tävlingsdata1(snöTyp, tävlingsNamn) values ('Frost', 'Åre');
+insert into tävlingsdata1(snöTyp, tävlingsNamn) values ('Pudersnö', 'Säfsen');
 insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Extremt kallt', 080000, 'Oberstdorf');
 insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Strålande solsken', 095000, 'Lenzerheide');
-insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Spöregn', 115000, 'Lenzerheide');
+insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Spöregn', 115000, 'Mördarbacken');
+insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Blåsigt', 130000, 'Hammarbybacken');
+insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Snöstorm', 084500, 'Åre');
+insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Snöstorm', 102000, 'Säfsen');
 insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX35', 'Stina Nilsson', 2);
 insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX35', 'Emma Wikén', 7);
 insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix HF8', 'Charlotte Kalla', 13);
 insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX45', 'Charlotte Kalla', 13);
+insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX55', 'Peter Sjöberg', 14);
+insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX1337', 'Madde Persson', 13);
+insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX70', 'Stina Nilsson', 22);
 
 select * from skidor;
 select * from vallaSkidor;

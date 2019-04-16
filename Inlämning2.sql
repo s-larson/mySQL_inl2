@@ -152,8 +152,8 @@ insert into snö(typ, luftfuktighet) values ('Stenhårt', 5);
 insert into snö(typ, luftfuktighet) values ('Mjuk', 70);
 insert into tävlingsdata1(snöTyp, tävlingsNamn) values ('Stenhårt', 'Lenzerheide');
 insert into tävlingsdata1(snöTyp, tävlingsNamn) values ('Mjuk', 'Lenzerheide');
-insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Strålande solsken', 095000, 'Lenzerheide');
-insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Spöregn', 115000, 'Lenzerheide');
+insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Strålande solsken', 100000, 'Lenzerheide');
+insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Spöregn', 120000, 'Lenzerheide');
 
 ## 8.
 insert into väder(typ, temperatur) values ('Snöstorm', -5);
@@ -195,6 +195,7 @@ insert into valla(namn, typ) values ('Swix KX55', 'Klister');
 	#Weak entities
 insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Kardborre', 'Atomic', 'Madde Persson', 1, 'Grov Julgran', 'Frost', 'Snöstorm');
 insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Klisterskida', 'OneWay', 'Lisa Andersson', 13, 'Bränd Stock', 'Frost', 'Strålande solsken');
+insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Klisterskida', 'OneWay', 'Markus Hellner', 2, 'Grov Julgran', 'Kramsnö', 'Spöregn');
 insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Klisterskida', 'Atomic', 'Peter Sjöberg', 14, 'Bullig Träplanka', 'Stenhårt', 'Extremt kallt');
 insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Lågt', 'Madshus', 'Åke Svensson', 9, 'Nedskuren', 'Kramsnö', 'Blåsigt');
 insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Lågt', 'Madshus', 'Stina Nilsson', 22, 'Nedskuren', 'Kramsnö', 'Blåsigt');
@@ -226,5 +227,26 @@ insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX55', 'Peter
 insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX1337', 'Madde Persson', 13);
 insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX70', 'Stina Nilsson', 22);
 
-select * from skidor where väderTyp='blåsigt';
-select * from vallaSkidor;
+
+## Frågeoperationer
+# 1. 
+select skidåkare.vikt from skidåkare where skidåkare.namn='Therese Johaug';
+
+# 2.
+select tävling.namn, tävling.datum from tävling where tävling.namn='Mördarbacken';
+
+# 3.
+select skidåkare.vikt from skidåkare, tävling, delta where skidåkare.namn=delta.skidåkarNamn and tävling.namn=delta.tävlingsNamn and tävling.datum='20160105';
+
+# 4.
+select skidåkare.namn from skidåkare, skidor, struktur where skidåkare.namn=skidor.åkarNamn and struktur.namn=skidor.strukturNamn and skidor.fabrikat='Madhus' 
+and skidor.nummer = 3;
+# Ingen data hämtas då ingen av skidåkarnas skidor är tillverkade av Madhus
+
+# 5.
+select väder.typ from väder, tävling, tävlingsdata2 where tävling.namn=tävlingsdata2.tävlingsNamn and väder.typ=tävlingsdata2.väderTyp 
+and tävlingsdata2.tid='120000';
+# Markus Hellner har två par skidor. Koppla till tävling?
+
+# 6.
+select vikt, COUNT(*) from skidåkare group by vikt having COUNT(*) > 1;

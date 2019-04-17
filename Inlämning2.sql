@@ -73,15 +73,15 @@ create table delta(
     foreign key (tävlingsNamn) references tävling(namn)
 )engine=innodb;
 
-create table tävlingsdata1(
+create table tävlingsSnö(
     snöTyp varchar(10),
     tävlingsNamn varchar(20),
     primary key (snöTyp, tävlingsNamn),
     foreign key (snöTyp) references snö(typ),
-	foreign key (tävlingsNamn) references tävling(namn)
+foreign key (tävlingsNamn) references tävling(namn)
 )engine=innodb;
 
-create table tävlingsdata2(
+create table tävlingsVäder(
     väderTyp varchar(20),
     tävlingsNamn varchar(20),
     tid time,
@@ -112,8 +112,8 @@ insert into delta(skidåkarNamn, tävlingsNamn) values ('Charlotte Kalla', 'Mör
 insert into tävling(namn, datum) values ('Oberstdorf', 20160105);
 insert into snö(typ, luftfuktighet) values ('Slask', 100);
 insert into väder(typ, temperatur) values ('Extremt kallt', -20);
-insert into tävlingsdata1(snöTyp, tävlingsNamn) values ('Slask', 'Oberstdorf');
-insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Extremt kallt', 080000, 'Oberstdorf');
+insert into tävlingsSnö(snöTyp, tävlingsNamn) values ('Slask', 'Oberstdorf');
+insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Extremt kallt', 080000, 'Oberstdorf');
 
 ## 4.
 insert into skidåkare(namn, vikt) values ('Markus Hellner', 75);
@@ -150,10 +150,10 @@ insert into väder(typ, temperatur) values ('Strålande solsken', 2);
 insert into väder(typ, temperatur) values ('Spöregn', 0);
 insert into snö(typ, luftfuktighet) values ('Stenhårt', 5);
 insert into snö(typ, luftfuktighet) values ('Mjuk', 70);
-insert into tävlingsdata1(snöTyp, tävlingsNamn) values ('Stenhårt', 'Lenzerheide');
-insert into tävlingsdata1(snöTyp, tävlingsNamn) values ('Mjuk', 'Lenzerheide');
-insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Strålande solsken', 100000, 'Lenzerheide');
-insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Spöregn', 120000, 'Lenzerheide');
+insert into tävlingsSnö(snöTyp, tävlingsNamn) values ('Stenhårt', 'Lenzerheide');
+insert into tävlingsSnö(snöTyp, tävlingsNamn) values ('Mjuk', 'Lenzerheide');
+insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Strålande solsken', 100000, 'Lenzerheide');
+insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Spöregn', 120000, 'Lenzerheide');
 
 ## 8.
 insert into väder(typ, temperatur) values ('Snöstorm', -5);
@@ -162,7 +162,7 @@ insert into valla(namn, typ) values ('Swix HF8', 'Glid');
 insert into valla(namn, typ) values ('Swix KX45', 'Fäst');
 insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix HF8', 'Charlotte Kalla', 13);
 insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX45', 'Charlotte Kalla', 13);
-## Relatera skidorna till tävlingen? Ny relation?
+## Det går inte att se vilka skidor som användes en specifik tävling eftersom modellen saknar en relation mellan dessa.
 
 ## 9.
 insert into skidåkare (namn, vikt) values ('Marit Björgren', 58);
@@ -170,7 +170,7 @@ insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, v�
 insert into delta(skidåkarNamn, tävlingsNamn) values ('Marit Björgren', 'Lenzerheide');
 insert into valla(namn, typ) values ('Skigo HF-Gul', 'Glid');
 insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Skigo HF-Gul', 'Marit Björgren', 16);
-## Ny relation? Hur ska glidvallan passa till snötyp?
+## En glidvalla har varken en passande snötyp eller relationer för att se vilken tävling den användes i.
 
 ## 10.
 insert into valla(namn, typ) values ('Swix KX70', 'Klister');
@@ -178,10 +178,10 @@ insert into rillverktyg(fabrikat, kommentar, strukturNamn) values ('Skigo', 'Int
 insert into delta(skidåkarNamn, tävlingsNamn) values ('Anna Haag', 'Mördarbacken'); 
 insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Högt', 'Fischer', 'Anna Haag', 6, 'Nedskuren', 'Mjuk', 'Snöstorm');
 insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX70', 'Anna Haag', 6);
-## Ny relation mellan rillverktyget och tävling?
+## Ett rillverktyg har ingen relation till tävling
 
 ## GENERATED DATA ##
-	## Strong entities
+## Strong entities
 insert into skidåkare (namn, vikt) values ('Åke Svensson', 80);
 insert into skidåkare (namn, vikt) values ('Peter Sjöberg', 77);
 insert into skidåkare (namn, vikt) values ('Lisa Andersson', 62);
@@ -192,7 +192,7 @@ insert into tävling(namn, datum) values ('Säfsen', 20140207);
 insert into valla(namn, typ) values ('Swix KX1337', 'Fäst');
 insert into valla(namn, typ) values ('Swix KX55', 'Klister');
 
-	#Weak entities
+#Weak entities
 insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Kardborre', 'Atomic', 'Madde Persson', 1, 'Grov Julgran', 'Frost', 'Snöstorm');
 insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Klisterskida', 'OneWay', 'Lisa Andersson', 13, 'Bränd Stock', 'Frost', 'Strålande solsken');
 insert into skidor(spann, fabrikat, åkarNamn, nummer, strukturNamn, snöTyp, väderTyp) values ('Klisterskida', 'OneWay', 'Markus Hellner', 2, 'Grov Julgran', 'Kramsnö', 'Spöregn');
@@ -203,7 +203,7 @@ insert into rillverktyg(fabrikat, kommentar, strukturNamn) values ('Skigo', 'Fan
 insert into rillverktyg(fabrikat, kommentar, strukturNamn) values ('Skiwent', 'Extraordinärt verksam i medelföre', 'Slät Påskhare');
 insert into rillverktyg(fabrikat, kommentar, strukturNamn) values ('Swax', 'Oslagbar smidighet', 'Slät Påskhare');
 
-	#Relations
+#Relations
 insert into delta(skidåkarNamn, tävlingsNamn) values ('Madde Persson', 'Mördarbacken');
 insert into delta(skidåkarNamn, tävlingsNamn) values ('Peter Sjöberg', 'Mördarbacken'); 
 insert into delta(skidåkarNamn, tävlingsNamn) values ('Stina Nilsson', 'Mördarbacken'); 
@@ -216,13 +216,13 @@ insert into delta(skidåkarNamn, tävlingsNamn) values ('Markus Hellner', 'Lenze
 insert into delta(skidåkarNamn, tävlingsNamn) values ('Emma Wikén', 'Åre');
 insert into delta(skidåkarNamn, tävlingsNamn) values ('Peter Sjöberg', 'Säfsen');
 insert into delta(skidåkarNamn, tävlingsNamn) values ('Markus Hellner', 'Säfsen');
-insert into tävlingsdata1(snöTyp, tävlingsNamn) values ('Kramsnö', 'Hammarbybacken');
-insert into tävlingsdata1(snöTyp, tävlingsNamn) values ('Frost', 'Åre');
-insert into tävlingsdata1(snöTyp, tävlingsNamn) values ('Pudersnö', 'Säfsen');
-insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Spöregn', 115000, 'Mördarbacken');
-insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Blåsigt', 130000, 'Hammarbybacken');
-insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Snöstorm', 084500, 'Åre');
-insert into tävlingsdata2(väderTyp, tid, tävlingsNamn) values ('Snöstorm', 102000, 'Säfsen');
+insert into tävlingsSnö(snöTyp, tävlingsNamn) values ('Kramsnö', 'Hammarbybacken');
+insert into tävlingsSnö(snöTyp, tävlingsNamn) values ('Frost', 'Åre');
+insert into tävlingsSnö(snöTyp, tävlingsNamn) values ('Pudersnö', 'Säfsen');
+insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Spöregn', 115000, 'Mördarbacken');
+insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Blåsigt', 130000, 'Hammarbybacken');
+insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Snöstorm', 084500, 'Åre');
+insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Snöstorm', 102000, 'Säfsen');
 insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX55', 'Peter Sjöberg', 14);
 insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX1337', 'Madde Persson', 13);
 insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX70', 'Stina Nilsson', 22);
@@ -244,9 +244,18 @@ and skidor.nummer = 3;
 # Ingen data hämtas då ingen av skidåkarnas skidor är tillverkade av Madhus
 
 # 5.
-select väder.typ from väder, tävling, tävlingsdata2 where tävling.namn=tävlingsdata2.tävlingsNamn and väder.typ=tävlingsdata2.väderTyp 
-and tävlingsdata2.tid='120000';
-# Markus Hellner har två par skidor. Koppla till tävling?
+select väder.typ from väder, tävling, tävlingsVäder where tävling.namn=tävlingsVäder.tävlingsNamn and väder.typ=tävlingsVäder.väderTyp 
+and tävlingsVäder.tid='120000';
+# Modellen stödjer inte relationer mellan tävling och skidor. I relationen "Delta" kan nyckeln "skidNummer" läggas till så varje deltagare måste använda ett par skidor
 
 # 6.
-select vikt, COUNT(*) from skidåkare group by vikt having COUNT(*) > 1;
+select s1.namn, s2.namn, s1.vikt from skidåkare as s1, skidåkare as s2 where s1.namn!=s2.namn and s1.vikt=s2.vikt limit 2;
+# Hämta namnen och vikt från två likadana tabeller där namnen inte är lika och där viken är lika. Begränsa till 2 då det finns 4 kombinationer
+
+# 7.
+SELECT skidåkare.namn FROM skidåkare WHERE NOT EXISTS(SELECT * FROM delta WHERE skidåkare.namn=delta.skidåkarNamn);
+# Hämta alla namn från delta och joina namn från skidåkare och deltagare. Skriv ut de namnen som inte "kopplades"/hittades
+
+# 8.
+SELECT t1.namn, t2.väderTyp FROM tävling as t1, tävlingsVäder as t2 WHERE t1.namn = t2.tävlingsnamn;
+# Hämtar ut alla existerande kombinationer mellan väder och tävling

@@ -5,7 +5,7 @@ use b18simla;
 ## STRONG ENTITIES ##
 create table skidåkare(
 	namn varchar(20),
-    vikt varchar(2),
+    vikt tinyint(2) unsigned,
     primary key (namn)
 )engine=innodb;
 
@@ -23,7 +23,7 @@ create table snö(
 
 create table väder(
 	typ varchar(20),
-    temperatur varchar(5),
+    temperatur tinyint(5),
     primary key (typ)
 )engine=innodb;
 
@@ -220,7 +220,13 @@ insert into tävlingsSnö(snöTyp, tävlingsNamn) values ('Kramsnö', 'Hammarbyb
 insert into tävlingsSnö(snöTyp, tävlingsNamn) values ('Frost', 'Åre');
 insert into tävlingsSnö(snöTyp, tävlingsNamn) values ('Pudersnö', 'Säfsen');
 insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Spöregn', 115000, 'Mördarbacken');
+insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Spöregn', 130000, 'Hammarbybacken');
 insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Blåsigt', 130000, 'Hammarbybacken');
+insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Regnigt', 130000, 'Hammarbybacken');
+insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Snöstorm', 130000, 'Hammarbybacken');
+insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Strålande Solsken', 130000, 'Hammarbybacken');
+insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Vindstilla', 130000, 'Hammarbybacken');
+insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Extremt kallt', 130000, 'Hammarbybacken');
 insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Snöstorm', 084500, 'Åre');
 insert into tävlingsVäder(väderTyp, tid, tävlingsNamn) values ('Snöstorm', 102000, 'Säfsen');
 insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX55', 'Peter Sjöberg', 14);
@@ -230,32 +236,137 @@ insert into vallaSkidor(vallNamn, åkarNamn, skidNr) values ('Swix KX70', 'Stina
 
 ## Frågeoperationer
 # 1. 
-select skidåkare.vikt from skidåkare where skidåkare.namn='Therese Johaug';
+SELECT skidåkare.vikt 
+FROM skidåkare 
+WHERE skidåkare.namn='Therese Johaug';
 
 # 2.
-select tävling.namn, tävling.datum from tävling where tävling.namn='Mördarbacken';
+SELECT tävling.namn, tävling.datum 
+FROM tävling 
+WHERE tävling.namn='Mördarbacken';
 
 # 3.
-select skidåkare.vikt from skidåkare, tävling, delta where skidåkare.namn=delta.skidåkarNamn and tävling.namn=delta.tävlingsNamn and tävling.datum='20160105';
+SELECT skidåkare.vikt 
+FROM skidåkare, tävling, delta 
+WHERE skidåkare.namn=delta.skidåkarNamn 
+AND tävling.namn=delta.tävlingsNamn 
+AND tävling.datum='20160105';
 
 # 4.
-select skidåkare.namn from skidåkare, skidor, struktur where skidåkare.namn=skidor.åkarNamn and struktur.namn=skidor.strukturNamn and skidor.fabrikat='Madhus' 
-and skidor.nummer = 3;
+SELECT skidåkare.namn 
+FROM skidåkare, skidor, struktur 
+WHERE skidåkare.namn=skidor.åkarNamn 
+AND struktur.namn=skidor.strukturNamn 
+AND skidor.fabrikat='Madhus' 
+AND skidor.nummer = 3;
 # Ingen data hämtas då ingen av skidåkarnas skidor är tillverkade av Madhus
 
 # 5.
-select väder.typ from väder, tävling, tävlingsVäder where tävling.namn=tävlingsVäder.tävlingsNamn and väder.typ=tävlingsVäder.väderTyp 
-and tävlingsVäder.tid='120000';
+SELECT väder.typ 
+FROM väder, tävling, tävlingsVäder 
+WHERE tävling.namn=tävlingsVäder.tävlingsNamn 
+AND väder.typ=tävlingsVäder.väderTyp 
+AND tävlingsVäder.tid='120000';
 # Modellen stödjer inte relationer mellan tävling och skidor. I relationen "Delta" kan nyckeln "skidNummer" läggas till så varje deltagare måste använda ett par skidor
 
 # 6.
-select s1.namn, s2.namn, s1.vikt from skidåkare as s1, skidåkare as s2 where s1.namn!=s2.namn and s1.vikt=s2.vikt limit 2;
-# Hämta namnen och vikt från två likadana tabeller där namnen inte är lika och där viken är lika. Begränsa till 2 då det finns 4 kombinationer
+SELECT s1.namn, s2.namn, s1.vikt 
+FROM skidåkare as s1, skidåkare as s2 
+WHERE  s1.namn!=s2.namn 
+And s1.vikt=s2.vikt LIMIT 2;
+# Hämta namnen och vikt från två likadana tabeller där namnen inte är lika och där vikten är lika. Begränsa till 2 då det finns 4 kombinationer
 
 # 7.
-SELECT skidåkare.namn FROM skidåkare WHERE NOT EXISTS(SELECT * FROM delta WHERE skidåkare.namn=delta.skidåkarNamn);
+SELECT skidåkare.namn 
+FROM skidåkare 
+WHERE NOT EXISTS(SELECT * FROM delta WHERE skidåkare.namn=delta.skidåkarNamn);
 # Hämta alla namn från delta och joina namn från skidåkare och deltagare. Skriv ut de namnen som inte "kopplades"/hittades
 
 # 8.
-SELECT t1.namn, t2.väderTyp FROM tävling as t1, tävlingsVäder as t2 WHERE t1.namn = t2.tävlingsnamn;
-# Hämtar ut alla existerande kombinationer mellan väder och tävling
+SELECT tävling.namn 
+FROM tävling 
+WHERE NOT EXISTS (SELECT * FROM väder 
+WHERE NOT EXISTS (SELECT * FROM tävlingsVäder WHERE tävlingsVäder.väderTyp=väder.typ AND tävlingsVäder.tävlingsNamn=tävling.namn));
+# Hämta alla tävlingar som har samtliga vädertyper. beskriv bättre
+
+
+# 9.
+SELECT DISTINCT snöTyp 
+FROM tävlingsSnö;
+# Hämta snötyper som varit funnits vid tävlingar (finns i tävlingsSnö) och begränsa till max 1 av samma snötyp med DISTINCT
+
+# 10.
+SELECT skidåkarNamn
+FROM delta
+GROUP BY skidåkarNamn
+HAVING COUNT(*) = 2;
+# Hämta alla skidåkares namn från delta som dyker upp exakt 2 gånger, gruppera vid namn för att ta bort dupletter
+
+# 11.
+SELECT *
+FROM valla
+ORDER BY namn DESC;
+# Hämtar alla vallor och sorterar i DESCENDING (fallande) ordning
+
+# 12.
+SELECT AVG (vikt) 
+FROM skidåkare;
+# Hämtar AVERAGE (medelvärdet) vikt från skidåkare
+
+# 13.
+SELECT AVG (skidåkare.vikt), delta.tävlingsnamn
+FROM delta, skidåkare
+WHERE delta.skidåkarNamn=skidåkare.namn
+GROUP BY delta.tävlingsNamn;
+# Joina delta och skidåkare för att kunna ta fram medelvikten för tävlingen, gruppera vid tävlingsnamn, ta fram medelvikten
+
+# 14.
+SELECT DISTINCT fabrikat 
+FROM rillverktyg
+WHERE fabrikat LIKE "S%";
+# DISTINCT + S följt av modulus listar alla unika fabrikat som börjar på bokstaven S
+
+# 15.
+SELECT DISTINCT fabrikat
+FROM rillverktyg
+WHERE (SELECT LENGTH (fabrikat) = 5);
+# Ta fram unika fabrikat som är exakt 5 bokstäver långa
+
+# 16.
+SELECT MIN(temperatur)
+FROM väder;
+# Visa minimum temperatur för väder
+
+# 17.
+SELECT namn, datum
+FROM tävling
+ORDER BY datum DESC LIMIT 1;
+# Sortera tävlingar efter datum i fallande ordning, begränsa tabellen till ett svar
+
+# 18.
+SELECT *
+FROM tävling
+ORDER BY DAY(datum) DESC;
+# visa bara namnet
+
+# 19.
+UPDATE skidåkare
+SET vikt = vikt * 1.1
+WHERE vikt >= 50 AND vikt <= 60;
+# Öka vikten för alla skidåkare med en vikt mellan 50 och 60 kg med 10% (vikt + (vikt *0.1)
+
+# 20.
+SET FOREIGN_KEY_CHECKS=0;
+DELETE FROM skidåkare
+WHERE namn = 'Anna Haag';
+SET FOREIGN_KEY_CHECKS=1;
+# Ta bort skidåkaren Anna Haag
+
+# 21.
+SELECT * FROM skidor;
+SET FOREIGN_KEY_CHECKS=0;
+DELETE FROM skidor
+WHERE nummer = 2 AND åkarNamn = 'Markus Hellner';
+SET FOREIGN_KEY_CHECKS=1;
+SELECT * FROM skidor;
+# Ta bort skidorna med numret 3 och ägaren Markus Hellner

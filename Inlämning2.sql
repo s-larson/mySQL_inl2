@@ -287,8 +287,7 @@ SELECT tävling.namn
 FROM tävling 
 WHERE NOT EXISTS (SELECT * FROM väder 
 WHERE NOT EXISTS (SELECT * FROM tävlingsVäder WHERE tävlingsVäder.väderTyp=väder.typ AND tävlingsVäder.tävlingsNamn=tävling.namn));
-# Hämta alla tävlingar som har samtliga vädertyper. beskriv bättre
-
+# Invertera resultatet från alla väder som varit under en tävling, invertera sedan det med alla väder. Hämta tävlingsnamnet
 
 # 9.
 SELECT DISTINCT snöTyp 
@@ -347,7 +346,7 @@ ORDER BY datum DESC LIMIT 1;
 SELECT *
 FROM tävling
 ORDER BY DAY(datum) DESC;
-# visa bara namnet
+# visa bara namnet. EJ FÄRDIG
 
 # 19.
 UPDATE skidåkare
@@ -370,3 +369,6 @@ WHERE nummer = 2 AND åkarNamn = 'Markus Hellner';
 SET FOREIGN_KEY_CHECKS=1;
 SELECT * FROM skidor;
 # Ta bort skidorna med numret 3 och ägaren Markus Hellner
+
+# Punkt 18. Vad efterfrågas?
+# Punkt 20 & 21. Hur ska data tas bort när annan data är beorende?
